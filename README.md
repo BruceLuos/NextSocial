@@ -11,4 +11,14 @@ cnpm i --legacy-peer-deps
 ```
 bunx prisma init
 ```
+after edit schema.prisma 
+```a
+bunx prisma db push
+```
+check prisma sutdio
+```
+bunx prisma studio
+```
 
+## lucia-auth
+auth.ts
