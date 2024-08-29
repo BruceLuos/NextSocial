@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ThemeProvider } from "next-themes";
 import localFont from "next/font/local";
 import "./globals.css";
 
@@ -13,10 +14,10 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | next-social",
-    default: "next-social",
+    template: "%s | NextSocial",
+    default: "NextSocial",
   },
-  description: "The social media app for powernerds",
+  description: "The social media app for brucealuo",
 };
 
 export default function RootLayout({
@@ -27,7 +28,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
