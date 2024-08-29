@@ -48,6 +48,7 @@ interface DatabaseUserAttributes {
 
 // https://lucia-auth.com/tutorials/username-and-password/nextjs-app
 // This function can then be used in server components and form actions to get the current session and user.
+// cache is used to prevent multiple calls to the server when multiple components are using this function.
 export const validateRequest = cache(
   async (): Promise<
     { user: User; session: Session } | { user: null; session: null }
