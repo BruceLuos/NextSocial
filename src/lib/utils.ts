@@ -1,14 +1,14 @@
-import { type ClassValue, clsx } from "clsx"
+import { type ClassValue, clsx } from "clsx";
 import { formatDate, formatDistanceToNowStrict } from "date-fns";
-import { twMerge } from "tailwind-merge"
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 /**
  * Formats a relative date based on the given date.
- * 
+ *
  * @param from - The date to format relative to.
  * @returns The formatted relative date.
  */
@@ -25,4 +25,14 @@ export function formatRelativeDate(from: Date) {
       return formatDate(from, "MMM d, yyy");
     }
   }
+}
+
+/**
+ * 将一个数字格式化为紧凑的字符串表示形式
+ */
+export function formatNumber(n: number): string {
+  return Intl.NumberFormat("en-US", {
+    notation: "compact", // 使用紧凑表示法 1000 -> 1K
+    maximumFractionDigits: 1, // 最多保留一位小数
+  }).format(n);
 }
