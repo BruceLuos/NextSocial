@@ -2,7 +2,7 @@
 
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
-import { postDataInclude } from "@/lib/types";
+import { getPostDataInclude } from "@/lib/types";
 import { createPostSchema } from "@/lib/validation";
 
 export async function submitPost(input: string) {
@@ -17,7 +17,7 @@ export async function submitPost(input: string) {
       content,
       userId: user.id,
     },
-    include: postDataInclude, // 帖子创建时包含用户信息
+    include: getPostDataInclude(user.id), // 帖子创建时包含用户信息
   });
 
   // 返回一个包含用户信息的新帖子对象

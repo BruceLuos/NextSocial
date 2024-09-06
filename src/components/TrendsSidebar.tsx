@@ -1,13 +1,13 @@
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
-import { userDataSelect } from "@/lib/types";
+import { getUserDataSelect } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { unstable_cache } from "next/cache";
 import Link from "next/link";
 import { Suspense } from "react";
 import UserAvatar from "./UserAvatar";
-import { Button } from "./ui/button";
+import FollowButton from "./FollowButton";
 
 export default function TrendsSidebar() {
   return (
@@ -28,12 +28,19 @@ async function WhoToFollow() {
 
   // 5个推荐用户
   const usersToFollow = await prisma.user.findMany({
+    // 排除当前用户
     where: {
       NOT: {
         id: user.id,
       },
+      // 排除已经关注了的用户
+      followers: {
+        none: {
+          followerId: user.id,
+        },
+      },
     },
-    select: userDataSelect,
+    select: getUserDataSelect(user.id),
     take: 5,
   });
 
@@ -57,7 +64,15 @@ async function WhoToFollow() {
             </div>
           </Link>
           {/* TODO: follow function */}
-          <Button>Follow</Button>
+          <FollowButton
+            userId={user.id}
+            initialState={{
+              followers: user._count.followers,
+              isFollowedByUser: user.followers.some(
+                (follower) => follower.followerId === user.id,
+              ),
+            }}
+          />
         </div>
       ))}
     </div>

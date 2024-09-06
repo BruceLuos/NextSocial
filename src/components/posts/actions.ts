@@ -2,7 +2,7 @@
 
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
-import { postDataInclude } from "@/lib/types";
+import { getPostDataInclude } from "@/lib/types";
 
 /** 删除帖子 */
 export async function deletePost(id: string) {
@@ -20,7 +20,7 @@ export async function deletePost(id: string) {
 
   const deletedPost = await prisma.post.delete({
     where: { id },
-    include: postDataInclude, // 包含关联的数据
+    include: getPostDataInclude(user.id), // 返回包含关联的用户数据
   });
 
   return deletedPost;
