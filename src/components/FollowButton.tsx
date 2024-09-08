@@ -12,6 +12,12 @@ interface FollowButtonProps {
   initialState: FollowerInfo;
 }
 
+/**
+ * 关注按钮组件
+ * @param userId 用户ID
+ * @param initialState 初始状态
+ * @returns 关注按钮组件
+ */
 export default function FollowButton({
   userId,
   initialState,

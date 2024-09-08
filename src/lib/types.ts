@@ -6,6 +6,8 @@ export function getUserDataSelect(loggedInUserId: string) {
     username: true,
     displayName: true,
     avatarUrl: true,
+    bio: true, // 获取用户简介
+    createdAt: true, // 获取用户创建时间
     // 获取关注者信息
     followers: {
       where: {
@@ -15,10 +17,11 @@ export function getUserDataSelect(loggedInUserId: string) {
         followerId: true,
       },
     },
-    // 获取关注者数量
+
     _count: {
       select: {
-        followers: true,
+        posts: true, // 获取帖子数量
+        followers: true, // 获取关注者数量
       },
     },
   } satisfies Prisma.UserSelect; // satisfies 确保类型兼容
@@ -47,3 +50,8 @@ export interface FollowerInfo {
   followers: number;
   isFollowedByUser: boolean;
 }
+
+// 用户信息
+export type UserData = Prisma.UserGetPayload<{
+  select: ReturnType<typeof getUserDataSelect>;
+}>;
