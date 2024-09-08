@@ -8,8 +8,8 @@ import { PostsPage } from "@/lib/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 
-// 推荐帖子
-export default function ForYouFeed() {
+// 用户关注的人发布的帖子
+export default function FollowingFeed() {
   const {
     data,
     fetchNextPage,
@@ -18,11 +18,11 @@ export default function ForYouFeed() {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["post-feed", "for-you"],
+    queryKey: ["post-feed", "following"],
     queryFn: ({ pageParam }) =>
       kyInstance
         .get(
-          "/api/posts/for-you",
+          "/api/posts/following",
           pageParam ? { searchParams: { cursor: pageParam } } : {},
         )
         .json<PostsPage>(),
@@ -39,7 +39,7 @@ export default function ForYouFeed() {
   if (status === "success" && !posts.length && !hasNextPage) {
     return (
       <p className="text-center text-muted-foreground">
-        No one has posted anything yet.
+        No posts found. Start following people to see their posts here.
       </p>
     );
   }
