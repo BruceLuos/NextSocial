@@ -23,6 +23,7 @@ export default function UserPosts({ userId }: UserPostsProps) {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
+    // 数组形式的 queryKey 允许你定义查询的依赖项。如果 userId 变化，查询将自动重新执行。
     queryKey: ["post-feed", "user-posts", userId],
     queryFn: ({ pageParam }) =>
       kyInstance
