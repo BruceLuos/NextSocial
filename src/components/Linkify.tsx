@@ -6,6 +6,9 @@ interface LinkifyProps {
   children: React.ReactNode;
 }
 
+/**
+ * 链接化tag、url、用户名
+ */
 export default function Linkify({ children }: LinkifyProps) {
   return (
     <LinkifyUsername>
@@ -16,12 +19,18 @@ export default function Linkify({ children }: LinkifyProps) {
   );
 }
 
+/**
+ * 链接化url
+ */
 function LinkifyUrl({ children }: LinkifyProps) {
   return (
     <LinkItUrl className="text-primary hover:underline">{children}</LinkItUrl>
   );
 }
 
+/**
+ * 链接化用户名
+ */
 function LinkifyUsername({ children }: LinkifyProps) {
   return (
     <LinkIt
