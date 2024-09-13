@@ -30,6 +30,7 @@
     "arctic": "^1.9.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "cropperjs": "^1.6.2",
     "date-fns": "^3.6.0",
     "ky": "^1.4.0",
     "lucia": "^3.2.0",
