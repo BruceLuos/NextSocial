@@ -52,6 +52,7 @@ export default function EditProfileDialog({
     },
   });
 
+  // 更新用户信息
   const mutation = useUpdateProfileMutation();
 
   const [croppedAvatar, setCroppedAvatar] = useState<Blob | null>(null);

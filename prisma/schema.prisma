@@ -44,10 +44,11 @@ model Session {
 }
 
 model Post {
-  id      String @id @default(cuid()) // 使用 cuid 作为默认值
-  content String // 帖子内容
-  userId  String // 发帖人id
-  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id          String  @id @default(cuid()) // 使用 cuid 作为默认值
+  content     String // 帖子内容
+  userId      String // 发帖人id
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  attachments Media[] // 附件
 
   createdAt DateTime @default(now())
 
@@ -62,4 +63,24 @@ model Follow {
 
   @@unique([followerId, followingId]) // 确保每对关注关系只能存在一次，防止重复关注
   @@map("follows")
+}
+
+model Media {
+  id     String    @id @default(cuid())
+  postId String?
+  post   Post?     @relation(fields: [postId], references: [id], onDelete: SetNull) // 删除帖子时，不需要删除媒体，SetNull
+  type   MediaType
+  url    String
+
+  createdAt DateTime @default(now())
+
+  @@map("post_media")
+}
+
+// 媒体类型
+// 图片
+// 视频
+enum MediaType {
+  IMAGE
+  VIDEO
 }

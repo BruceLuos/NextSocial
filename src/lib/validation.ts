@@ -20,8 +20,10 @@ export const loginSchema = z.object({
 
 export type LoginValues = z.infer<typeof loginSchema>;
 
+// 创建帖子schema
 export const createPostSchema = z.object({
   content: requiredString,
+  mediaIds: z.array(z.string()).max(5, "Cannot have more than 5 attachments"), // 最多5个附件
 });
 
 // 更新用户信息schema

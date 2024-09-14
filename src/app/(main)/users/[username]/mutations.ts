@@ -21,7 +21,7 @@ export function useUpdateProfileMutation() {
 
   const queryClient = useQueryClient();
 
-  // uploadthing 上传文件
+  // uploadthing 上传头像
   const { startUpload: startAvatarUpload } = useUploadThing("avatar");
 
   const mutation = useMutation({
