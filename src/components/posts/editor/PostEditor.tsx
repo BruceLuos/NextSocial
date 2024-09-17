@@ -58,6 +58,7 @@ export default function PostEditor() {
       {
         onSuccess: () => {
           editor?.commands.clearContent();
+          resetMediaUploads();
         },
       },
     );
