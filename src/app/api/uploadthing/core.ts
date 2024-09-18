@@ -70,6 +70,8 @@ export const fileRouter = {
         },
       });
 
+      console.log("uploadthing core attachment media", media);
+
       return { mediaId: media.id };
     }),
 } satisfies FileRouter;

@@ -95,6 +95,8 @@ export default function useMediaUpload() {
     setUploadProgress(undefined);
   }
 
+  console.log("client upload attachments", attachments);
+
   return {
     startUpload: handleStartUpload,
     attachments,

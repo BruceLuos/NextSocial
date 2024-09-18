@@ -27,6 +27,7 @@ export async function submitPost(input: {
     include: getPostDataInclude(user.id), // 帖子创建时包含用户信息
   });
 
+  console.log("newPost", newPost);
   // 返回一个包含用户信息的新帖子对象
   return newPost;
 }

@@ -27,15 +27,17 @@ export function getUserDataSelect(loggedInUserId: string) {
   } satisfies Prisma.UserSelect; // satisfies 确保类型兼容
 }
 
+// 帖子数据包含用户信息和附件
 export function getPostDataInclude(loggedInUserId: string) {
   return {
     user: {
       select: getUserDataSelect(loggedInUserId),
     },
+    attachments: true,
   } satisfies Prisma.PostInclude;
 }
 
-// PostData 包含用户信息
+// PostData 包含其他需要的数据
 export type PostData = Prisma.PostGetPayload<{
   include: ReturnType<typeof getPostDataInclude>;
 }>;
