@@ -5,6 +5,11 @@ import prisma from "@/lib/prisma";
 import { getPostDataInclude } from "@/lib/types";
 import { createPostSchema } from "@/lib/validation";
 
+/**
+ * 创建帖子
+ * @param input 帖子内容和媒体id
+ * @returns 新帖子
+ */
 export async function submitPost(input: {
   content: string;
   mediaIds: string[];

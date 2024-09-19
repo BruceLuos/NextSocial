@@ -15,6 +15,10 @@ interface PostProps {
   post: PostData;
 }
 
+/**
+ * 帖子
+ * @param post 帖子数据
+ */
 export default function Post({ post }: PostProps) {
   const { user } = useSession();
 
