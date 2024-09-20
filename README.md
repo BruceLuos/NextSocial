@@ -22,3 +22,8 @@ bunx prisma studio
 
 ## lucia-auth
 auth.ts
+
+
+## vercel cron job clear unless upload file
+dev
+get request http://localhost:3000/api/clear-uploads and AUTH Code to test delete unless upload post file
