@@ -34,6 +34,20 @@ export function getPostDataInclude(loggedInUserId: string) {
       select: getUserDataSelect(loggedInUserId),
     },
     attachments: true,
+    // 帖子点赞
+    likes: {
+      where: {
+        userId: loggedInUserId,
+      },
+      select: {
+        userId: true,
+      },
+    },
+    _count: {
+      select: {
+        likes: true,
+      },
+    },
   } satisfies Prisma.PostInclude;
 }
 
@@ -57,3 +71,10 @@ export interface FollowerInfo {
 export type UserData = Prisma.UserGetPayload<{
   select: ReturnType<typeof getUserDataSelect>;
 }>;
+
+
+/** 点赞相关信息 */
+export interface LikeInfo {
+  likes: number;
+  isLikedByUser: boolean;
+}
