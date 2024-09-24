@@ -16,19 +16,20 @@ datasource db {
 }
 
 model User {
-  id           String    @id
-  username     String    @unique
+  id           String     @id
+  username     String     @unique
   displayName  String
-  email        String?   @unique
+  email        String?    @unique
   passwordHash String?
-  googleId     String?   @unique
+  googleId     String?    @unique
   avatarUrl    String?
   bio          String?
   sessions     Session[]
   posts        Post[]
-  following    Follow[]  @relation("Following") // 关注的人
-  followers    Follow[]  @relation("Followers") // 关注我的人
+  following    Follow[]   @relation("Following") // 关注的人
+  followers    Follow[]   @relation("Followers") // 关注我的人
   likes        Like[] // 用户的所有点赞
+  bookmarks    Bookmark[] // 用户的书签
 
   createdAt DateTime @default(now())
 
@@ -45,12 +46,13 @@ model Session {
 }
 
 model Post {
-  id          String  @id @default(cuid()) // 使用 cuid 作为默认值
+  id          String     @id @default(cuid()) // 使用 cuid 作为默认值
   content     String // 帖子内容
   userId      String // 发帖人id
-  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   attachments Media[] // 附件
   likes       Like[] // 帖子所有点赞
+  bookmarks   Bookmark[] // 帖子书签
 
   createdAt DateTime @default(now())
 
@@ -96,4 +98,18 @@ model Like {
 
   @@unique([userId, postId])
   @@map("likes")
+}
+
+// 用户书签
+model Bookmark {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, postId]) // 确保每个用户对每个帖子只能有一个书签。防止了同一个用户对同一个帖子创建多个书签。
+  @@map("bookmarks")
 }
