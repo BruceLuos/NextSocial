@@ -1,5 +1,6 @@
 import { Skeleton } from "../ui/skeleton";
 
+/** loading 谷架屏 */
 export default function PostsLoadingSkeleton() {
   return (
     <div className="space-y-5">
