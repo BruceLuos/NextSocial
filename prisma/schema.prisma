@@ -30,6 +30,7 @@ model User {
   followers    Follow[]   @relation("Followers") // 关注我的人
   likes        Like[] // 用户的所有点赞
   bookmarks    Bookmark[] // 用户的书签
+  comments     Comment[] // 用户评论
 
   createdAt DateTime @default(now())
 
@@ -53,6 +54,7 @@ model Post {
   attachments Media[] // 附件
   likes       Like[] // 帖子所有点赞
   bookmarks   Bookmark[] // 帖子书签
+  comments    Comment[] // 帖子评论
 
   createdAt DateTime @default(now())
 
@@ -112,4 +114,18 @@ model Bookmark {
 
   @@unique([userId, postId]) // 确保每个用户对每个帖子只能有一个书签。防止了同一个用户对同一个帖子创建多个书签。
   @@map("bookmarks")
+}
+
+// 评论
+model Comment {
+  id      String @id @default(cuid())
+  content String
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId  String
+  post    Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@map("comments")
 }
