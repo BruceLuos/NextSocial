@@ -55,6 +55,7 @@ export function getPostDataInclude(loggedInUserId: string) {
     _count: {
       select: {
         likes: true,
+        comments: true, // 帖子中评论的数量
       },
     },
   } satisfies Prisma.PostInclude;
@@ -68,6 +69,24 @@ export type PostData = Prisma.PostGetPayload<{
 export interface PostsPage {
   posts: PostData[];
   nextCursor: string | null;
+}
+
+// 评论数据包含用户信息
+export function getCommentDataInclude(loggedInUserId: string) {
+  return {
+    user: {
+      select: getUserDataSelect(loggedInUserId),
+    },
+  } satisfies Prisma.CommentInclude;
+}
+
+export type CommentData = Prisma.CommentGetPayload<{
+  include: ReturnType<typeof getCommentDataInclude>;
+}>;
+
+export interface CommentsPage {
+  comments: CommentData[];
+  previousCursor: string | null; // 评论是加载最新评论，是向上加载更多（旧评论）
 }
 
 /** 关注者信息 */
