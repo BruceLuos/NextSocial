@@ -1,4 +1,4 @@
-import { CommentsPage } from "@/lib/types";
+import { CommentsPage, PostData, PostsPage } from "@/lib/types";
 import {
   InfiniteData,
   QueryKey,
@@ -37,6 +37,36 @@ export function useSubmitCommentMutation(postId: string) {
               ],
             };
           }
+        },
+      );
+
+      // 乐观更新当前帖子评论数量
+      queryClient.setQueriesData<InfiniteData<PostsPage, string | null>>(
+        {
+          queryKey: ["post-feed"],
+        },
+        (oldData) => {
+          if (!oldData) return;
+
+          return {
+            pageParams: oldData.pageParams,
+            pages: oldData.pages.map((page) => ({
+              nextCursor: page.nextCursor,
+              posts: page.posts.map((post) => {
+                // 只更新当前postId的帖子
+                if (post.id === postId) {
+                  return {
+                    ...post,
+                    _count: {
+                      ...post._count,
+                      comments: (post._count.comments ?? 0) + 1, // 增加评论计数
+                    },
+                  };
+                }
+                return post;
+              }),
+            })),
+          };
         },
       );
 
