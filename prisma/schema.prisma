@@ -16,21 +16,23 @@ datasource db {
 }
 
 model User {
-  id           String     @id
-  username     String     @unique
-  displayName  String
-  email        String?    @unique
-  passwordHash String?
-  googleId     String?    @unique
-  avatarUrl    String?
-  bio          String?
-  sessions     Session[]
-  posts        Post[]
-  following    Follow[]   @relation("Following") // 关注的人
-  followers    Follow[]   @relation("Followers") // 关注我的人
-  likes        Like[] // 用户的所有点赞
-  bookmarks    Bookmark[] // 用户的书签
-  comments     Comment[] // 用户评论
+  id                    String         @id
+  username              String         @unique
+  displayName           String
+  email                 String?        @unique
+  passwordHash          String?
+  googleId              String?        @unique
+  avatarUrl             String?
+  bio                   String?
+  sessions              Session[]
+  posts                 Post[]
+  following             Follow[]       @relation("Following") // 关注的人
+  followers             Follow[]       @relation("Followers") // 关注我的人
+  likes                 Like[] // 用户的所有点赞
+  bookmarks             Bookmark[] // 用户的书签
+  comments              Comment[] // 用户评论
+  receivedNotifications Notification[] @relation("Recipient") // 用户接收到的通知
+  issuedNotifications   Notification[] @relation("Issuer") // 用户发出的通知
 
   createdAt DateTime @default(now())
 
@@ -47,14 +49,15 @@ model Session {
 }
 
 model Post {
-  id          String     @id @default(cuid()) // 使用 cuid 作为默认值
-  content     String // 帖子内容
-  userId      String // 发帖人id
-  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  attachments Media[] // 附件
-  likes       Like[] // 帖子所有点赞
-  bookmarks   Bookmark[] // 帖子书签
-  comments    Comment[] // 帖子评论
+  id                  String         @id @default(cuid()) // 使用 cuid 作为默认值
+  content             String // 帖子内容
+  userId              String // 发帖人id
+  user                User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  attachments         Media[] // 附件
+  likes               Like[] // 帖子所有点赞
+  bookmarks           Bookmark[] // 帖子书签
+  comments            Comment[] // 帖子评论
+  linkedNotifications Notification[] // 与该帖子相关的所有通知，一个帖子有多个Notification
 
   createdAt DateTime @default(now())
 
@@ -128,4 +131,27 @@ model Comment {
   createdAt DateTime @default(now())
 
   @@map("comments")
+}
+
+// 通知
+model Notification {
+  id          String           @id @default(cuid()) // 唯一标识符，使用 cuid() 作为默认值
+  recipientId String // 接收通知的用户ID
+  recipient   User             @relation("Recipient", fields: [recipientId], references: [id], onDelete: Cascade) // 与 User 模型的关系，表示通知的接收者
+  issuerId    String // 发出通知的用户ID
+  issuer      User             @relation("Issuer", fields: [issuerId], references: [id], onDelete: Cascade) // 与 User 模型的关系，表示通知的发出者
+  postId      String? // 可选的帖子ID，表示通知与特定帖子相关
+  post        Post?            @relation(fields: [postId], references: [id], onDelete: Cascade) // 与 Post 模型的关系，表示通知关联的帖子
+  type        NotificationType // 通知类型，使用枚举类型定义
+  read        Boolean          @default(false) // 标记通知是否已读，默认值为 false
+
+  createdAt DateTime @default(now()) // 创建时间，默认值为当前时间
+
+  @@map("notifications") // 指定数据库表名为 "notifications"
+}
+
+enum NotificationType {
+  LIKE
+  FOLLOW
+  COMMENT
 }
