@@ -71,21 +71,31 @@ export async function POST(
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    await prisma.follow.upsert({
-      where: {
-        // 复合唯一键
-        // @@unique([followerId, followingId])
-        followerId_followingId: {
+    // 关注用户给被关注用户发送通知
+    await prisma.$transaction([
+      prisma.follow.upsert({
+        where: {
+          // 复合唯一键
+          // @@unique([followerId, followingId])
+          followerId_followingId: {
+            followerId: loggedInUser.id,
+            followingId: userId,
+          },
+        },
+        create: {
           followerId: loggedInUser.id,
           followingId: userId,
         },
-      },
-      create: {
-        followerId: loggedInUser.id,
-        followingId: userId,
-      },
-      update: {}, // 如果记录已存在，不需要进行任何更新
-    });
+        update: {}, // 如果记录已存在，不需要进行任何更新
+      }),
+      prisma.notification.create({
+        data: {
+          issuerId: loggedInUser.id,
+          recipientId: userId,
+          type: "FOLLOW",
+        },
+      }),
+    ]);
 
     return new Response();
   } catch (error) {
@@ -108,12 +118,22 @@ export async function DELETE(
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    await prisma.follow.deleteMany({
-      where: {
-        followerId: loggedInUser.id,
-        followingId: userId, // 指定要取消关注的用户ID
-      },
-    });
+    // 取消关注后也删除遗留的通知数据
+    await prisma.$transaction([
+      prisma.follow.deleteMany({
+        where: {
+          followerId: loggedInUser.id,
+          followingId: userId,  // 指定要取消关注的用户ID
+        },
+      }),
+      prisma.notification.deleteMany({
+        where: {
+          issuerId: loggedInUser.id,
+          recipientId: userId,
+          type: "FOLLOW",
+        },
+      }),
+    ]);
 
     return new Response();
   } catch (error) {
