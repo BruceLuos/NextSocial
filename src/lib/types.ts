@@ -89,6 +89,31 @@ export interface CommentsPage {
   previousCursor: string | null; // 评论是加载最新评论，是向上加载更多（旧评论）
 }
 
+// 通知包含用户和帖子内容数据
+export const notificationsInclude = {
+  issuer: {
+    select: {
+      username: true,
+      displayName: true,
+      avatarUrl: true,
+    },
+  },
+  post: {
+    select: {
+      content: true,
+    },
+  },
+} satisfies Prisma.NotificationInclude;
+
+export type NotificationData = Prisma.NotificationGetPayload<{
+  include: typeof notificationsInclude;
+}>;
+
+export interface NotificationsPage {
+  notifications: NotificationData[];
+  nextCursor: string | null;
+}
+
 /** 关注者信息 */
 export interface FollowerInfo {
   followers: number;
@@ -109,4 +134,8 @@ export interface LikeInfo {
 
 export interface BookmarkInfo {
   isBookmarkedByUser: boolean;
+}
+
+export interface NotificationCountInfo {
+  unreadCount: number;
 }
