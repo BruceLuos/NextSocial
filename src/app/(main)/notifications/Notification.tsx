@@ -9,6 +9,7 @@ interface NotificationProps {
   notification: NotificationData;
 }
 
+/** 通知展示 */
 export default function Notification({ notification }: NotificationProps) {
   const notificationTypeMap: Record<
     NotificationType,

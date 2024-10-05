@@ -20,6 +20,7 @@ export default function TrendsSidebar() {
   );
 }
 
+/** 推荐用户 */
 async function WhoToFollow() {
   // 校验登录
   const { user } = await validateRequest();

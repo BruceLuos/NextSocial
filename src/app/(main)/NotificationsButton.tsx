@@ -14,6 +14,7 @@ interface NotificationsButtonProps {
 export default function NotificationsButton({
   initialState,
 }: NotificationsButtonProps) {
+  // 获取未读通知数量
   const { data } = useQuery({
     queryKey: ["unread-notification-count"],
     queryFn: () =>

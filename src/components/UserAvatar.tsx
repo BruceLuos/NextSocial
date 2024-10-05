@@ -8,6 +8,7 @@ interface UserAvatarProps {
   className?: string;
 }
 
+/** 头像组件 */
 export default function UserAvatar({
   avatarUrl,
   size,

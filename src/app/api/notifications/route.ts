@@ -14,7 +14,8 @@ export async function GET(req: NextRequest) {
     if (!user) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
-
+    
+    // 查询当前登录用户接收到的通知
     const notifications = await prisma.notification.findMany({
       where: {
         recipientId: user.id,
