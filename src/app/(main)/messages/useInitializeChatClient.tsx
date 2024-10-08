@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { StreamChat } from "stream-chat";
 import { useSession } from "../SessionProvider";
 
+/**
+ * 初始化聊天服务
+ */
 export default function useInitializeChatClient() {
   const { user } = useSession();
   const [chatClient, setChatClient] = useState<StreamChat | null>(null);

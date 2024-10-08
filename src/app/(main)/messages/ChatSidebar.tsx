@@ -51,6 +51,7 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
       )}
     >
       <MenuHeader onClose={onClose} />
+      {/* TODO: */}
       <ChannelList
         filters={{
           type: "messaging",

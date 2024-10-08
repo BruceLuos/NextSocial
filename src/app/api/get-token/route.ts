@@ -15,6 +15,7 @@ export async function GET() {
 
     const issuedAt = Math.floor(Date.now() / 1000) - 60; // 包含当前时间减去1分钟后的时间戳，表示令牌的签发时间。
 
+    // 创建一个token来验证当前登录user
     const token = streamServerClient.createToken(
       user.id,
       expirationTime,
