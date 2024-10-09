@@ -35,6 +35,7 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
       <ChannelPreviewMessenger
         {...props}
         onSelect={() => {
+          // 选择新频道并关闭ChatSidebar
           props.setActiveChannel?.(props.channel, props.watchers);
           onClose();
         }}
@@ -51,7 +52,7 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
       )}
     >
       <MenuHeader onClose={onClose} />
-      {/* TODO: */}
+      {/* TODO: 频道预览列表*/}
       <ChannelList
         filters={{
           type: "messaging",
