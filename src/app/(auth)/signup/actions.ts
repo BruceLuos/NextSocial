@@ -57,6 +57,7 @@ export async function signUp(
       };
     }
 
+    // prisma 事务用async function 可以加入处理不支持事务的逻辑
     await prisma.$transaction(async (tx) => {
       await tx.user.create({
         data: {
@@ -68,6 +69,8 @@ export async function signUp(
         },
       });
       // 在用户注册时，同时在聊天服务中注册该用户
+      // 这里的操作不属于prisma操作postgres，自然不支持事务，但是这段代码放在这个位置报错时，可以让事务回滚到上一步
+      // 如果放在首位报错则完全不会触发回滚
       await streamServerClient.upsertUser({
         id: userId,
         username,

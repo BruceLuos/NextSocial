@@ -30,6 +30,7 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
     }
   }, [channel?.id, queryClient]);
 
+  // 用于在列表中自定义显示通道预览
   const ChannelPreviewCustom = useCallback(
     (props: ChannelPreviewUIComponentProps) => (
       <ChannelPreviewMessenger
@@ -100,6 +101,7 @@ function MenuHeader({ onClose }: MenuHeaderProps) {
           <MailPlus className="size-5" />
         </Button>
       </div>
+      {/* 新对话弹窗 */}
       {showNewChatDialog && (
         <NewChatDialog
           onOpenChange={setShowNewChatDialog}
