@@ -125,7 +125,6 @@ export type UserData = Prisma.UserGetPayload<{
   select: ReturnType<typeof getUserDataSelect>;
 }>;
 
-
 /** 点赞相关信息 */
 export interface LikeInfo {
   likes: number;
@@ -137,5 +136,9 @@ export interface BookmarkInfo {
 }
 
 export interface NotificationCountInfo {
+  unreadCount: number;
+}
+
+export interface MessageCountInfo {
   unreadCount: number;
 }

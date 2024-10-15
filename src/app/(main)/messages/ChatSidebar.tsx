@@ -24,6 +24,7 @@ export default function ChatSidebar({ open, onClose }: ChatSidebarProps) {
 
   const { channel } = useChatContext();
 
+  // 用户进入message页后消息已读
   useEffect(() => {
     if (channel?.id) {
       queryClient.invalidateQueries({ queryKey: ["unread-messages-count"] });

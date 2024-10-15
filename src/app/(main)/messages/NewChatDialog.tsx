@@ -38,13 +38,14 @@ export default function NewChatDialog({
     UserResponse<DefaultStreamChatGenerics>[]
   >([]);
 
+  // 搜索聊天用户
   const { data, isFetching, isError, isSuccess } = useQuery({
     queryKey: ["stream-users", searchInputDebounced],
     queryFn: async () =>
       client.queryUsers(
         {
-          id: { $ne: loggedInUser.id },
-          role: { $ne: "admin" },
+          id: { $ne: loggedInUser.id }, // 查找的不为loggedInUser.id
+          role: { $ne: "admin" }, // 用户角色不为admin
           ...(searchInputDebounced
             ? {
                 $or: [
@@ -59,6 +60,7 @@ export default function NewChatDialog({
       ),
   });
 
+  // 与选中用户创建聊天频道
   const mutation = useMutation({
     mutationFn: async () => {
       const channel = client.channel("messaging", {
