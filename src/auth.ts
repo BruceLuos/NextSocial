@@ -3,6 +3,7 @@ import { Lucia, Session, User } from "lucia";
 import { cookies } from "next/headers";
 import { cache } from "react";
 import prisma from "./lib/prisma";
+import { Google } from "arctic";
 
 // prisma 适配器
 const adapter = new PrismaAdapter(prisma.session, prisma.user);
@@ -45,6 +46,13 @@ interface DatabaseUserAttributes {
   avatarUrl: string | null;
   googleId: string | null;
 }
+
+// 使用arctic提供的Google Auth Provider
+export const google = new Google(
+  process.env.GOOGLE_CLIENT_ID!,
+  process.env.GOOGLE_CLIENT_SECRET!,
+  `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/callback/google`,
+);
 
 // https://lucia-auth.com/tutorials/username-and-password/nextjs-app
 // This function can then be used in server components and form actions to get the current session and user.

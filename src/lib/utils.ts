@@ -36,3 +36,14 @@ export function formatNumber(n: number): string {
     maximumFractionDigits: 1, // 最多保留一位小数
   }).format(n);
 }
+
+
+/**
+ * 将输入字符串转为适合用作url的slug
+ */
+export function slugify(input: string): string {
+  return input
+  .toLowerCase() // 将输入字符串转换为小写
+  .replace(/ /g, "-") // 将空格替换为连字符（-）
+  .replace(/[^a-z0-9-]/g, ""); // 移除所有非字母数字和非连字符的字符
+}
