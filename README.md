@@ -27,3 +27,7 @@ auth.ts
 ## vercel cron job clear unless upload file
 dev
 get request http://localhost:3000/api/clear-uploads and AUTH Code to test delete unless upload post file
+
+
+## google auth problem in local
+in local dev should open the tun mode in proxy so it can normaly login in google
