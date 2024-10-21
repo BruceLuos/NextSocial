@@ -33,7 +33,7 @@ export default function SearchResults({ query }: SearchResultsProps) {
         .json<PostsPage>(),
     initialPageParam: null as string | null,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
-    gcTime: 0,
+    gcTime: 0, // react-query默认会缓存数据 这里设置为0可以让它不进行缓存
   });
 
   const posts = data?.pages.flatMap((page) => page.posts) || [];
