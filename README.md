@@ -31,3 +31,6 @@ get request http://localhost:3000/api/clear-uploads and AUTH Code to test delete
 
 ## google auth problem in local
 in local dev should open the tun mode in proxy so it can normaly login in google
+
+## stream chat
+user chat
