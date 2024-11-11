@@ -17,7 +17,7 @@ const nextConfig = {
   },
   rewrites: () => {
     return [
-      // 点击帖子#tag重定向到搜索页
+      // 点击帖子#tag链接重定向到搜索页并带上query
       {
         source: "/hashtag/:tag",
         destination: "/search?q=%23:tag",

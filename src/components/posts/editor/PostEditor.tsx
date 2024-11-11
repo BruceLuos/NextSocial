@@ -48,7 +48,8 @@ export default function PostEditor() {
         placeholder: "What's crack-a-lackin'?",
       }),
     ],
-    immediatelyRender: false, // SSR渲染时设置tiptap editor禁用自动渲染
+    // SSR渲染时设置tiptap editor禁用自动渲染
+    immediatelyRender: false,
   });
 
   const input =
