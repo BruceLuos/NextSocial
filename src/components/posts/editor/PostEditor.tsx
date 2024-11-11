@@ -49,6 +49,7 @@ export default function PostEditor() {
       }),
     ],
     // SSR渲染时设置tiptap editor禁用自动渲染
+    // @ts-ignore
     immediatelyRender: false,
   });
 
