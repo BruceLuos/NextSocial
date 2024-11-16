@@ -10,6 +10,7 @@ interface SessionContext {
 
 const SessionContext = createContext<SessionContext | null>(null);
 
+/** 全局sessionProvider */
 export default function SessionProvider({
   children,
   value,

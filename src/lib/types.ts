@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 
+/** 用户信息查询选择 */
 export function getUserDataSelect(loggedInUserId: string) {
   return {
     id: true,
