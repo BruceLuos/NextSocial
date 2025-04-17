@@ -81,7 +81,7 @@ class CustomFetch {
       clearTimeout(timeoutId);
       this.abortControllers.delete(requestKey);
       return response;
-    } catch (error) {
+    } catch (error: any) {
       clearTimeout(timeoutId);
       this.abortControllers.delete(requestKey);
       if (error.name === "AbortError") {
@@ -102,12 +102,12 @@ class CustomFetch {
 
   private buildURL(url: string, options: ExtendedRequestInit): string {
     const fullUrl = this.config.baseURL ? `${this.config.baseURL}${url}` : url;
-    
+
     if (options.searchParams) {
       const searchParams = new URLSearchParams(options.searchParams);
-      return `${fullUrl}${fullUrl.includes('?') ? '&' : '?'}${searchParams.toString()}`;
+      return `${fullUrl}${fullUrl.includes("?") ? "&" : "?"}${searchParams.toString()}`;
     }
-    
+
     return fullUrl;
   }
 
