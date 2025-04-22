@@ -19,7 +19,8 @@ import { useDropzone } from "@uploadthing/react";
 export default function PostEditor() {
   const { user } = useSession();
 
-  const mutation = useSubmitPostMutation();
+  // 提交帖子操作
+  const submitPostMutation = useSubmitPostMutation();
 
   const {
     startUpload,
@@ -59,8 +60,7 @@ export default function PostEditor() {
     }) || "";
 
   async function onSubmit() {
-    // TODO: 提交帖子后更新帖子列表, 使用react-query的useMutation
-    mutation.mutate(
+    submitPostMutation.mutate(
       {
         content: input,
         mediaIds: attachments.map((a) => a.mediaId).filter(Boolean) as string[],
@@ -72,9 +72,6 @@ export default function PostEditor() {
         },
       },
     );
-
-    // await submitPost(input);
-    // editor?.commands.clearContent();
   }
 
   // 粘贴上传
@@ -120,7 +117,7 @@ export default function PostEditor() {
         />
         <LoadingButton
           onClick={onSubmit}
-          loading={mutation.isPending}
+          loading={submitPostMutation.isPending}
           disabled={!input.trim() || isUploading}
           className="min-w-20"
         >

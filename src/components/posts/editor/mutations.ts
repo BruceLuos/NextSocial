@@ -9,6 +9,7 @@ import {
 import { submitPost } from "./actions";
 import { useSession } from "@/app/(main)/SessionProvider";
 
+/** 提交帖子mutation */
 export function useSubmitPostMutation() {
   const { toast } = useToast();
 
@@ -45,7 +46,6 @@ export function useSubmitPostMutation() {
 
       // 取消正在进行的查询请求
       await queryClient.cancelQueries(queryFilter);
-
 
       // 将新帖子插入到缓存的第一页数据中，而不需要重新获取所有分页的数据，从而提高性能。
       // 因为帖子需要在首页和个人页展示数据，所以使用sētQueriesData来疲劳更新多个查询的缓存数据
