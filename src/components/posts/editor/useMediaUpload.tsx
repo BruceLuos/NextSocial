@@ -66,6 +66,18 @@ export default function useMediaUpload() {
     },
   });
 
+  /**
+   * 处理文件上传的初始化流程
+   * 在开始上传前执行验证检查
+   * 
+   * @param files - 要上传的文件数组
+   * @throws {Toast} 如果当前已有上传在进行中会抛出提示
+   * @throws {Toast} 如果总附件数量超过5个限制会抛出提示
+   * 
+   * @example
+   * handleStartUpload([file1, file2]);
+   */
+
   function handleStartUpload(files: File[]) {
     if (isUploading) {
       toast({
